@@ -1,0 +1,468 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", sans-serif;
+  color: #222;
+}
+
+img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+/* 全体幅 */
+.container {
+  width: 100%;
+  max-width: 430px;
+  margin: 0 auto;
+  background: #fff;
+}
+
+/* ------------------
+   Header
+------------------ */
+.header {
+  background: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.header-inner {
+  height: 64px;
+  padding: 0 8px 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.logo {
+  width: 110px;
+  flex-shrink: 0;
+}
+
+.logo img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* ------------------
+   Hamburger
+------------------ */
+.hamburger {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+  z-index: 1100;
+}
+
+.hamburger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  margin-left: auto;
+  background: #666;
+  border-radius: 999px;
+  transition: 0.3s ease;
+}
+
+/* 開いたときのアニメーション */
+.hamburger.active span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ------------------
+   Nav
+------------------ */
+.nav {
+  position: fixed;
+  top: 64px;
+  right: -100%;
+  width: min(78vw, 320px);
+  height: calc(100vh - 64px);
+  background: #fff;
+  box-shadow: -6px 0 20px rgba(0, 0, 0, 0.08);
+  padding: 24px 20px;
+  transition: right 0.3s ease;
+  z-index: 1050;
+}
+
+.nav.active {
+  right: 0;
+}
+
+.nav ul {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.nav a {
+  font-size: 16px;
+  font-weight: 700;
+  color: #333;
+}
+
+/* ------------------
+   Hero
+------------------ */
+.hero {
+  background: #f3f3f3;
+}
+
+/* 画像間の余白 */
+.hero img {
+  border-radius: 0;
+}
+
+.main_image {
+    padding-bottom: 20px;
+}
+
+/* メイン画像 */
+.hero img:first-child {
+  margin-bottom: 0;
+}
+
+/* CTA画像 */
+.hero a {
+  display: block;
+}
+
+/* CTAの画像を少しだけ角丸にしたい場合 */
+.hero a img {
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 20px 15px 0px;
+}
+
+.hero_price_image {
+    margin-top: 20px;
+}
+
+/* ------------------
+   PCで中央寄せしてスマホ見えを維持
+------------------ */
+@media screen and (min-width: 768px) {
+  body {
+    background: #e9e9e9;
+  }
+
+  .header {
+    background: transparent;
+    border-bottom: none;
+    box-shadow: none;
+  }
+
+  .header .container {
+    margin-top: 6px;
+    border: 1px solid #e5e5e5;
+    border-bottom: none;
+  }
+
+  .hero .container {
+    box-shadow: 0 0 0 1px #e5e5e5;
+  }
+}
+
+.about {
+  background: #646464;
+  text-align: center;
+}
+
+.about-title {
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+  padding: 40px 0 20px;
+}
+
+.about-img {
+    width: 80%;
+    display: block;
+    margin: 0 auto;
+}
+
+.reputation_title {
+    width: 80%;
+    display: block;
+    margin: 0 auto;
+    padding: 60px 0 40px;
+}
+
+.reputation_img {
+    width: 80%;
+    display: block;
+    margin: 0 auto;
+    padding-bottom: 10px;
+}
+
+/* =========================================
+   口コミ画像スライダー用CSS
+   ========================================= */
+
+/* セクション全体の余白 */
+.image-slider-section {
+    padding: 20px 0 40px;
+}
+
+/* スライダーの外枠（画面幅いっぱいまで広がるが、最大幅を制限） */
+.slider-outer {
+    max-width: 800px; /* 画像の最大表示幅 */
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden; /* はみ出した画像を隠す */
+    border-radius: 8px; /* 角丸 */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05); /* 軽い影 */
+}
+
+/* 画像を並べるコンテナ */
+.slider-inner {
+    display: flex;
+    transition: transform 0.5s ease-in-out; /* 切り替えアニメーション */
+}
+
+/* 各画像のスライド */
+.slide-img {
+    width: 100%; /* 横幅いっぱいに広げる */
+    height: auto; /* 高さは自動調整 */
+    object-fit: contain; /* 画像全体を表示 */
+    flex-shrink: 0; /* 幅が縮まらないようにする */
+    padding: 0 20px;
+}
+
+/* 前後ボタン */
+.slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0,0,0,0.4);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    z-index: 10;
+    transition: background-color 0.3s;
+}
+
+.slider-btn:hover {
+    background-color: rgba(0,0,0,0.7);
+}
+
+.slider-btn.prev { left: 15px; }
+.slider-btn.next { right: 15px; }
+
+/* インジケーター（ドット） */
+.slider-indicators {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex;
+    gap: 8px;
+}
+
+.indicator {
+    width: 10px;
+    height: 10px;
+    background-color: rgba(255,255,255,0.5);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.indicator.active {
+    background-color: white;
+    box-shadow: 0 0 3px rgba(0,0,0,0.3);
+}
+
+/* スマホ対応（必要に応じて） */
+@media (max-width: 600px) {
+    .slider-outer {
+        max-width: 100%;
+        border-radius: 0;
+    }
+    .slider-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
+    }
+}
+
+/* マーカー */
+.marker {
+  background: linear-gradient(
+    transparent 60%,
+    #ffe600 60%
+  );
+  padding: 0 2px;
+}
+
+.member-img {
+    width: 85%;
+    margin: 0 auto;
+    padding: 20px 0 40px;
+}
+
+.service-img {
+    width: 95%;
+    margin: 0 auto;
+}
+
+.line-btn img {
+    width: 90%;
+    margin: 0 auto;
+    padding-top: 15px;
+}
+
+.phone-btn img {
+    width: 90%;
+    margin: 15px auto 0;
+}
+
+.service-img-2 {
+    width: 95%;
+    margin: 0 auto;
+    padding: 30px 0;
+}
+
+.case-img {
+    padding-top: 30px;
+    width: 25%;
+    margin: 0 auto;
+}
+
+.case-slide-img {
+    width: 60%;
+    height: auto;
+    object-fit: contain;
+}
+
+.comments-img {
+    width: 85%;
+    margin: 0 auto;
+}
+
+.notices {
+    width: 95%;
+    margin: 0 auto;
+    padding-bottom: 40px;
+}
+
+/* ------------------
+   Footer
+------------------ */
+.footer {
+  color: #111;
+}
+
+.footer-inner {
+    padding: 24px 18px 18px;
+  background: #d0d0d0;
+}
+
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.footer-brand {
+  flex: 1 1 auto;
+}
+
+.footer-logo {
+    width: 80%;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.footer-nav {
+  flex: 0 0 auto;
+}
+
+.footer-nav ul {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.footer-nav a {
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.footer-info {
+  margin-top: 10px;
+}
+
+.footer-info p {
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+.footer-info a {
+  text-decoration: none;
+}
+
+.footer-bottom {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.footer-bottom a {
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.copyright {
+    text-align: center;
+}
