@@ -1,6 +1,17 @@
 /* =========================================
    画像スライダー動作JavaScript
    ========================================= */
+document.addEventListener("DOMContentLoaded", () => {
+  const hamburger = document.getElementById("hamburger");
+  const nav = document.getElementById("nav");
+
+  if (hamburger && nav) {
+    hamburger.addEventListener("click", () => {
+      hamburger.classList.toggle("active");
+      nav.classList.toggle("active");
+    });
+  }
+});
 
 let currentImageIndex = 0; // 現在表示中の画像インデックス
 const totalImages = 5; // 画像の総数
