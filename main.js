@@ -1,7 +1,7 @@
-/* =========================================
-   画像スライダー動作JavaScript
-   ========================================= */
 document.addEventListener("DOMContentLoaded", () => {
+  // =========================
+  // ハンバーガーメニュー
+  // =========================
   const hamburger = document.getElementById("hamburger");
   const nav = document.getElementById("nav");
 
@@ -11,47 +11,69 @@ document.addEventListener("DOMContentLoaded", () => {
       nav.classList.toggle("active");
     });
   }
-});
 
-let currentImageIndex = 0; // 現在表示中の画像インデックス
-const totalImages = 5; // 画像の総数
+  // =========================
+  // 複数スライダー対応
+  // =========================
+  const sliders = document.querySelectorAll(".slider-outer");
 
-const sliderContainer = document.getElementById('imageSlider');
-const indicatorDots = document.querySelectorAll('.indicator');
+  sliders.forEach((slider) => {
+    const sliderInner = slider.querySelector(".slider-inner");
+    const slides = slider.querySelectorAll(".slide-img");
+    const prevBtn = slider.querySelector(".slider-btn.prev");
+    const nextBtn = slider.querySelector(".slider-btn.next");
+    const indicators = slider.querySelectorAll(".indicator");
 
-// スライダーの表示を更新する関数
-function updateSliderView() {
-    // コンテナを横にずらす（インデックス * 100%）
-    sliderContainer.style.transform = `translateX(-${currentImageIndex * 100}%)`;
+    if (!sliderInner || slides.length === 0) return;
 
-    // インジケーター（ドット）のactiveクラスを切り替え
-    indicatorDots.forEach((dot, index) => {
-        if (index === currentImageIndex) {
-            dot.classList.add('active');
-        } else {
-            dot.classList.remove('active');
-        }
+    let currentIndex = 0;
+    const totalSlides = slides.length;
+
+    function updateSlider() {
+      sliderInner.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+      indicators.forEach((dot, index) => {
+        dot.classList.toggle("active", index === currentIndex);
+      });
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener("click", () => {
+        currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+        updateSlider();
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener("click", () => {
+        currentIndex = (currentIndex + 1) % totalSlides;
+        updateSlider();
+      });
+    }
+
+    indicators.forEach((dot, index) => {
+      dot.addEventListener("click", () => {
+        currentIndex = index;
+        updateSlider();
+      });
     });
-}
 
-// ボタン押下時の処理 (direction: 1は次へ, -1は前へ)
-function changeImage(direction) {
-    currentImageIndex = (currentImageIndex + direction + totalImages) % totalImages;
-    updateSliderView();
-}
+    let autoSlide = setInterval(() => {
+      currentIndex = (currentIndex + 1) % totalSlides;
+      updateSlider();
+    }, 5000);
 
-// インジケーター（ドット）クリック時の処理
-function jumpToImage(index) {
-    currentImageIndex = index;
-    updateSliderView();
-}
+    slider.addEventListener("mouseover", () => {
+      clearInterval(autoSlide);
+    });
 
-// 自動スライド（5秒ごと、必要なければコメントアウトまたは削除）
-let autoSlide = setInterval(() => changeImage(1), 5000);
+    slider.addEventListener("mouseout", () => {
+      autoSlide = setInterval(() => {
+        currentIndex = (currentIndex + 1) % totalSlides;
+        updateSlider();
+      }, 5000);
+    });
 
-// マウスが乗った時に自動スライドを停止し、離れたら再開（ユーザー体験向上）
-const sliderOuter = document.querySelector('.slider-outer');
-if(sliderOuter) {
-    sliderOuter.addEventListener('mouseover', () => clearInterval(autoSlide));
-    sliderOuter.addEventListener('mouseout', () => autoSlide = setInterval(() => changeImage(1), 5000));
-}
+    updateSlider();
+  });
+});
